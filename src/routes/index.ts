@@ -16,6 +16,7 @@ import {
   users,
 } from "../controller/user.controller";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { permissionMiddleware } from "../middleware/permission.middleware";
 import {
   createRole,
   roles,
@@ -39,11 +40,36 @@ export const routes = (router: Router) => {
   router.put("/api/users/password", authMiddleware, updatePassword);
 
   // User CRUD routes
-  router.get("/api/users", authMiddleware, users);
-  router.post("/api/users", authMiddleware, createUser);
-  router.get("/api/users/:id", authMiddleware, getUser);
-  router.put("/api/users/:id", authMiddleware, updateUser);
-  router.delete("/api/users/:id", authMiddleware, deleteUser);
+  router.get(
+    "/api/users",
+    authMiddleware,
+    permissionMiddleware("users"),
+    users
+  );
+  router.post(
+    "/api/users",
+    authMiddleware,
+    permissionMiddleware("users"),
+    createUser
+  );
+  router.get(
+    "/api/users/:id",
+    authMiddleware,
+    permissionMiddleware("users"),
+    getUser
+  );
+  router.put(
+    "/api/users/:id",
+    authMiddleware,
+    permissionMiddleware("users"),
+    updateUser
+  );
+  router.delete(
+    "/api/users/:id",
+    authMiddleware,
+    permissionMiddleware("users"),
+    deleteUser
+  );
 
   // Permissions
   router.get("/api/permissions", authMiddleware, permissions);
@@ -56,11 +82,36 @@ export const routes = (router: Router) => {
   router.delete("/api/roles/:id", authMiddleware, deleteRole);
 
   //Product
-  router.get("/api/products", authMiddleware, products);
-  router.post("/api/products", authMiddleware, products);
-  router.get("/api/products/:id", authMiddleware, products);
-  router.put("/api/products/:id", authMiddleware, products);
-  router.delete("/api/products/:id", authMiddleware, products);
+  router.get(
+    "/api/products",
+    authMiddleware,
+    permissionMiddleware("products"),
+    products
+  );
+  router.post(
+    "/api/products",
+    authMiddleware,
+    permissionMiddleware("products"),
+    products
+  );
+  router.get(
+    "/api/products/:id",
+    authMiddleware,
+    permissionMiddleware("products"),
+    products
+  );
+  router.put(
+    "/api/products/:id",
+    authMiddleware,
+    permissionMiddleware("products"),
+    products
+  );
+  router.delete(
+    "/api/products/:id",
+    authMiddleware,
+    permissionMiddleware("products"),
+    products
+  );
 
   //Image Upload
 
